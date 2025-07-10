@@ -1,0 +1,78 @@
+# Kong简化声明式配置文件 - Rainbow Hub API网关
+# 只使用基本的内置插件，避免插件启用问题
+_format_version: "3.0"
+_transform: true
+
+# 服务定义
+services:
+  # Rainbow-Auth认证服务
+  - name: rainbow-auth-service
+    url: http://localhost:8080
+    tags: 
+      - rainbow
+      - auth
+
+  # Rainbow-Docs文档服务
+  - name: rainbow-docs-service
+    url: http://localhost:3000
+    tags:
+      - rainbow
+      - docs
+
+# 路由定义
+routes:
+  # 认证服务路由
+  - name: auth-routes
+    service: rainbow-auth-service
+    paths:
+      - /api/auth
+    strip_path: false
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+      - PATCH
+
+  # 文档服务路由
+  - name: docs-routes
+    service: rainbow-docs-service
+    paths:
+      - /api/docs
+    strip_path: false
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+      - PATCH
+
+# 插件配置 - 只使用基本的内置插件
+plugins:
+  # 全局CORS插件
+  - name: cors
+    config:
+      origins:
+        - "*"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+        - PATCH
+      headers:
+        - Accept
+        - Content-Type
+        - Authorization
+      credentials: true
+      max_age: 3600
+
+  # 全局限流插件
+  - name: rate-limiting
+    config:
+      minute: 1000
+      hour: 10000
+      policy: local
