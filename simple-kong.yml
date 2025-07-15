@@ -49,6 +49,20 @@ routes:
       - OPTIONS
       - PATCH
 
+  # 文档安装路由
+  - name: docs-install-routes
+    service: rainbow-docs-service
+    paths:
+      - /api/install
+    strip_path: false
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+      - PATCH
+
 # 插件配置 - 只使用基本的内置插件
 plugins:
   # 全局CORS插件
