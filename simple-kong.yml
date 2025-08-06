@@ -35,8 +35,8 @@ routes:
       - OPTIONS
       - PATCH
 
-  # 文档服务路由
-  - name: docs-routes
+  # Rainbow-Docs 所有服务路由
+  - name: docs-all-routes
     service: rainbow-docs-service
     paths:
       - /api/docs
